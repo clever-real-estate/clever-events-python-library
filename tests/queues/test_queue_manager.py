@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import MagicMock
-from clever_events_library.queues.queue_manager import QueueManager
+
 from clever_events_library.queues.adapters import QueueBaseAdapter
+from clever_events_library.queues.queue_manager import QueueManager
 
 
 class TestQueueManager(unittest.TestCase):
@@ -18,7 +19,9 @@ class TestQueueManager(unittest.TestCase):
 
         messages = self.queue_manager.fetch_messages(queue_name, max_number_of_messages)
 
-        self.mock_adapter.fetch_messages.assert_called_once_with(queue_name, max_number_of_messages)
+        self.mock_adapter.fetch_messages.assert_called_once_with(
+            queue_name, max_number_of_messages
+        )
         self.assertEqual(messages, expected_messages)
 
     def test_delete_message(self):

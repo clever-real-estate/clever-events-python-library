@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import MagicMock
-from clever_events_library.events.event_publisher import EventPublisher
+
 from clever_events_library.events.adapters import EventBaseAdapter, SNSAdapter
+from clever_events_library.events.event_publisher import EventPublisher
 
 
 class TestEventPublisher(unittest.TestCase):

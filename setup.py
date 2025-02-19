@@ -3,8 +3,8 @@
 pip setup file
 """
 from setuptools import find_packages, setup
-from clever_events_library import __version__
 
+from clever_events_library import __version__
 
 __library__ = "clever-events-python-library"
 __user__ = "https://github.com/clever-real-estate"
@@ -16,7 +16,7 @@ with open("README.md") as readme:
 
 with open("requirements.txt") as f:
     required = f.read().splitlines()
-    #required.append("python_version >= '3.10'")
+    # required.append("python_version >= '3.10'")
 
 setup(
     author="Clever Real Estate",
@@ -29,7 +29,7 @@ setup(
     ],
     description=("Clever Real Estate Events Library"),
     download_url=f"{__user__}/{__library__}.git",
-    #install_requires=required,
+    # install_requires=required,
     license="LICENSE",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
@@ -38,5 +38,5 @@ setup(
     url=f"{__user__}/{__library__}.git",
     version=__version__,
     zip_safe=False,
-    py_modules=['clever_events_library', 'boto3'],
+    py_modules=["clever_events_library", "boto3"],
 )
