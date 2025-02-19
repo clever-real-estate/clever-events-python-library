@@ -16,7 +16,7 @@ with open("README.md") as readme:
 
 with open("requirements.txt") as f:
     required = f.read().splitlines()
-    # required.append("python_version >= '3.10'")
+
 
 setup(
     author="Clever Real Estate",
@@ -29,7 +29,7 @@ setup(
     ],
     description=("Clever Real Estate Events Library"),
     download_url=f"{__user__}/{__library__}.git",
-    # install_requires=required,
+    install_requires=required,
     license="LICENSE",
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
