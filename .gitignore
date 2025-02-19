@@ -1,0 +1,6 @@
+.vscode/*
+venv/*
+**/__pycache__/**
+.DS_Store
+test_script_*
+*egg-info/*
