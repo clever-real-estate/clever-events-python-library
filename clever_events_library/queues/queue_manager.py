@@ -1,5 +1,6 @@
-from .adapters import QueueBaseAdapter
 from collections.abc import Iterator
+
+from .adapters import QueueBaseAdapter
 
 
 class QueueManager:
