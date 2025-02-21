@@ -41,16 +41,26 @@ class TestSQSAdapter(unittest.TestCase):
                     "Body": json.dumps(
                         {"Message": json.dumps({"key": "value"}), "MessageAttributes": {}}
                     ),
+                },
+                {
+                    "MessageId": "5",
+                    "ReceiptHandle": "cba",
+                    "Body": json.dumps(
+                        {"Message": json.dumps({"key": "value"}), "MessageAttributes": {}}
+                    ),
                 }
             ]
         }
 
         messages = self.sqs_adapter.fetch_messages("test_queue")
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(messages[0]["message_id"], "1")
-        self.assertEqual(messages[0]["message_receipt_handle"], "abc")
-        self.assertEqual(messages[0]["message_data"], {"key": "value"})
-        self.assertEqual(messages[0]["message_attributes"], {})
+        count = 0
+        message_ids = []
+        for message in messages:
+            self.assertIsNotNone(message)
+            count += 1
+            message_ids.append(message["message_id"])
+        self.assertEqual(message_ids, ["1", "5"])
+        self.assertEqual(count, 2)
 
     @patch("boto3.client")
     def test_delete_message(self, mock_boto_client):

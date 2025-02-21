@@ -43,7 +43,6 @@ class SQSAdapter(QueueBaseAdapter):
             WaitTimeSeconds=self.await_time,
         )
 
-        messages = []
         if "Messages" in response:
             for msg in response["Messages"]:
                 message_id = msg["MessageId"]
@@ -55,16 +54,12 @@ class SQSAdapter(QueueBaseAdapter):
                     else {}
                 )
                 message_data = json.loads(message_body["Message"])
-                messages.append(
-                    {
-                        "message_id": message_id,
-                        "message_receipt_handle": message_receipt_handle,
-                        "message_data": message_data,
-                        "message_attributes": message_attributes,
-                    }
-                )
-
-        return messages
+                yield {
+                    "message_id": message_id,
+                    "message_receipt_handle": message_receipt_handle,
+                    "message_data": message_data,
+                    "message_attributes": message_attributes,
+                }
 
     def delete_message(self, queue_name, message_id):
         return self.sqs_client.delete_message(
