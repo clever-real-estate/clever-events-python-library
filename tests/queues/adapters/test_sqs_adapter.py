@@ -48,7 +48,7 @@ class TestSQSAdapter(unittest.TestCase):
                     "Body": json.dumps(
                         {"Message": json.dumps({"key": "value"}), "MessageAttributes": {}}
                     ),
-                }
+                },
             ]
         }
 
