@@ -39,7 +39,9 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
             )
         return self._sns_client
 
-    def sync_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
+    def sync_publish(
+        self, event_name: str, message_data: dict, additional_params: dict = {}
+    ) -> None:
         """
         Synchronously publish a message to the SNS topic
 
@@ -68,7 +70,9 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
             **additional_params
         )
 
-    async def async_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
+    async def async_publish(
+        self, event_name: str, message_data: dict, additional_params: dict = {}
+    ) -> None:
         """
         Asynchronously publish a message to the SNS topic
 

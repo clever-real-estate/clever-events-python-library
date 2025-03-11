@@ -4,7 +4,9 @@ from abc import ABC, abstractmethod
 class EventBaseAdapter(ABC):
 
     @abstractmethod
-    def sync_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
+    def sync_publish(
+        self, event_name: str, message_data: dict, additional_params: dict = {}
+    ) -> None:
         """
         Syncronously publish an event to the event stack
 
@@ -19,7 +21,9 @@ class EventBaseAdapter(ABC):
         pass
 
     @abstractmethod
-    async def async_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
+    async def async_publish(
+        self, event_name: str, message_data: dict, additional_params: dict = {}
+    ) -> None:
         """
         Asynchronously publish an event to the event stack
 
