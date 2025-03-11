@@ -26,6 +26,9 @@ EventPublisher(event_adapter=sns_adapter).sync_publish(
         'message_attributes': {
             'test1': 'test attributes 1',
         }
+    },
+    additional_params={
+        'some_extra_param': 'value'
     }
 )
 ```
@@ -55,8 +58,31 @@ loop.run_until_complete(event_publisher.async_publish(
         'message_attributes': {
             'test': 'test attributes',
         }
+    },
+    additional_params={
+        'some_extra_param': 'value'
     }
 ))
+```
+
+#### Additional Params Usage
+
+Note that `additional_params` is an optional argument and each key / pair included in the dict will be used as a param in the events stack call.
+For instance, if we want to include a `MessageGroupId` param in the call of the SNS publish method, the call to the sync_publish / async_publish method should be:
+
+```python
+EventPublisher(event_adapter=sns_adapter).sync_publish(
+    event_name='test_sns_topic',
+    message_data={
+        'message': {'test': 'TEST message'},
+        'message_attributes': {
+            'test1': 'test attributes 1',
+        }
+    },
+    additional_params={
+        'MessageGroupId': 'MessageGroupIdValue'
+    }
+)
 ```
 
 ### SQSAdapter with QueueManager
