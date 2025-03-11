@@ -14,7 +14,9 @@ class EventPublisher:
         """
         self.event_adapter = event_adapter
 
-    def sync_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
+    def sync_publish(
+        self, event_name: str, message_data: dict, additional_params: dict = {}
+    ) -> None:
         """
         Synchronously publish an event to the event stack
 
@@ -25,7 +27,9 @@ class EventPublisher:
         """
         self.event_adapter.sync_publish(event_name, message_data, additional_params)
 
-    async def async_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
+    async def async_publish(
+        self, event_name: str, message_data: dict, additional_params: dict = {}
+    ) -> None:
         """
         Asynchronously publish an event to the event stack
 
