@@ -18,7 +18,7 @@ class TestEventPublisher(TestCase):
 
         self.publisher.sync_publish(event_name, message_data)
 
-        self.mock_adapter.sync_publish.assert_called_once_with(event_name, message_data)
+        self.mock_adapter.sync_publish.assert_called_once_with(event_name, message_data, {})
 
     def test_publish_calls_sns_adapter_publish(self):
         event_name = "test_event"
@@ -26,4 +26,4 @@ class TestEventPublisher(TestCase):
 
         self.sns_publisher.sync_publish(event_name, message_data)
 
-        self.mock_sns_adapter.sync_publish.assert_called_once_with(event_name, message_data)
+        self.mock_sns_adapter.sync_publish.assert_called_once_with(event_name, message_data, {})
