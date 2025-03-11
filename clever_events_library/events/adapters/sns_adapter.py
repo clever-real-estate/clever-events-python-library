@@ -39,7 +39,7 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
             )
         return self._sns_client
 
-    def sync_publish(self, event_name: str, message_data: dict) -> None:
+    def sync_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
         """
         Synchronously publish a message to the SNS topic
 
@@ -49,6 +49,7 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
                 keys:
                 - message: The message to be published
                 - message_attributes: A dict containing the message attributes. It is optional.
+            additional_params: A dict containing additional parameters. It is optional.
 
         Raises:
             ValueError: If message is not present in message_data
@@ -64,9 +65,10 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
             Message=json.dumps({"default": json.dumps(message_data["message"])}),
             MessageStructure="json",
             MessageAttributes=self._prepare_message_attributes(message_attributes),
+            **additional_params
         )
 
-    async def async_publish(self, event_name: str, message_data: dict) -> None:
+    async def async_publish(self, event_name: str, message_data: dict, additional_params: dict = {}) -> None:
         """
         Asynchronously publish a message to the SNS topic
 
@@ -76,6 +78,7 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
                 keys:
                 - message: The message to be published
                 - message_attributes: A dict containing the message attributes. It is optional.
+            additional_params (dict): A dict containing additional parameters. It is optional.
 
         Raises:
             ValueError: If message is not present in message_data
@@ -99,6 +102,7 @@ class SNSAdapter(AwsHelperMixin, EventBaseAdapter):
                 Message=json.dumps({"default": json.dumps(message_data["message"])}),
                 MessageStructure="json",
                 MessageAttributes=self._prepare_message_attributes(message_attributes),
+                **additional_params
             )
 
     def _prepare_message_attributes(self, attributes: dict) -> dict:

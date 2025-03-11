@@ -72,3 +72,19 @@ class TestSNSAdapter(TestCase):
                 await self.sns_adapter.async_publish("my_topic", {})
 
         asyncio.run(run_test())
+
+    @patch.object(
+        SNSAdapter, "_get_topic_arn", return_value="arn:aws:sns:us-east-1:123456789012:my_topic"
+    )
+    def test_sync_publish_with_additional_params(self, mock_get_topic_arn):
+        message_data = {"message": {"key": "value"}, "message_attributes": {"attr1": "value1"}}
+        self.sns_adapter.sns_client.publish = MagicMock()
+        additional_params = {"MessageGroupId": "test"}
+        self.sns_adapter.sync_publish("my_topic", message_data, additional_params)
+        self.sns_adapter.sns_client.publish.assert_called_once_with(
+            TargetArn="arn:aws:sns:us-east-1:123456789012:my_topic",
+            Message='{"default": "{\\"key\\": \\"value\\"}"}',
+            MessageStructure="json",
+            MessageAttributes={"attr1": {"DataType": "String", "StringValue": "value1"}},
+            **additional_params
+        )
