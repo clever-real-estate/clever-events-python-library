@@ -34,9 +34,8 @@ class TestSQSAdapter(TestCase):
                 {
                     "MessageId": "1",
                     "ReceiptHandle": "handle1",
-                    "Body": json.dumps(
-                        {"Message": json.dumps({"key": "value"}), "MessageAttributes": {}}
-                    ),
+                    "Body": json.dumps({"key": "value"}),
+                    "MessageAttributes": {},
                 }
             ]
         }

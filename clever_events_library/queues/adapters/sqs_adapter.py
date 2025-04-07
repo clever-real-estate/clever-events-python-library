@@ -77,16 +77,11 @@ class SQSAdapter(AwsHelperMixin, QueueBaseAdapter):
                 message_id = msg["MessageId"]
                 message_receipt_handle = msg["ReceiptHandle"]
                 message_body = json.loads(msg["Body"])
-                message_attributes = (
-                    message_body["MessageAttributes"]
-                    if "MessageAttributes" in message_body
-                    else {}
-                )
-                message_data = json.loads(message_body["Message"])
+                message_attributes = msg["MessageAttributes"] if "MessageAttributes" in msg else {}
                 yield {
                     "message_id": message_id,
                     "message_receipt_handle": message_receipt_handle,
-                    "message_data": message_data,
+                    "message_data": message_body,
                     "message_attributes": message_attributes,
                 }
 
