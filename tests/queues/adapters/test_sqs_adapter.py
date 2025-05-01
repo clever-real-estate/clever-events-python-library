@@ -59,3 +59,14 @@ class TestSQSAdapter(TestCase):
         expected_url = f"https://sqs.{self.client_config['aws_region']}.amazonaws.com/{self.client_config['aws_account_id']}/test_queue"
         queue_url = self.sqs_adapter._get_queue_url("test_queue")
         self.assertEqual(queue_url, expected_url)
+
+    @patch("boto3.client")
+    def test_set_visibility_timeout(self, mock_boto_client):
+        mock_sqs_client = MagicMock()
+        mock_boto_client.return_value = mock_sqs_client
+
+        # Set visibility timeout
+        self.sqs_adapter.set_visibility_timeout(30)
+
+        # Assert the internal visibility timeout is updated
+        self.assertEqual(self.sqs_adapter._visibility_timeout, 30)
