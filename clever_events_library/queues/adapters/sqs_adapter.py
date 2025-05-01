@@ -68,7 +68,7 @@ class SQSAdapter(AwsHelperMixin, QueueBaseAdapter):
             AttributeNames=["All"],
             MaxNumberOfMessages=max_number_of_messages,
             MessageAttributeNames=["All"],
-            VisibilityTimeout=0,
+            VisibilityTimeout=30,
             WaitTimeSeconds=self._await_time,
         )
 
