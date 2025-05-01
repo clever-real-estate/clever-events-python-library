@@ -103,6 +103,7 @@ sqs_adapter = SQSAdapter(
 )
 
 sqs_adapter.set_await_time(20)
+sqs_adapter.set_visibility_timeout(30)
 
 queue_manager = QueueManager(queue_adapter=sqs_adapter)
 messages = queue_manager.fetch_messages(queue_name="noelias_test_queue", max_number_of_messages=10)
@@ -110,6 +111,12 @@ messages = queue_manager.fetch_messages(queue_name="noelias_test_queue", max_num
 for message in messages:
     queue_manager.delete_message(queue_name="noelias_test_queue", message_id=message['message_receipt_handle'])
 ```
+
+##### Important Note about set_visibility_timeout method:
+
+Setting the visibility timeout using the `set_visibility_timeout` method in the SQS adapter is crucial to ensure proper message processing in a distributed system. The visibility timeout defines the period during which a message is hidden from other consumers after being fetched. This prevents multiple consumers from processing the same message simultaneously. It will also cause issues while deleting a message from a queue.
+
+If the visibility timeout is too short and the message isn't processed within that time, it may reappear in the queue and be picked up by another consumer, leading to duplicate processing. Conversely, if it's too long, unprocessed messages may remain hidden unnecessarily, delaying retries. Properly configuring this timeout ensures efficient and reliable message handling.
 
 ### AWS variables set up
 

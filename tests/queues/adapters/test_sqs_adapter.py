@@ -59,3 +59,39 @@ class TestSQSAdapter(TestCase):
         expected_url = f"https://sqs.{self.client_config['aws_region']}.amazonaws.com/{self.client_config['aws_account_id']}/test_queue"
         queue_url = self.sqs_adapter._get_queue_url("test_queue")
         self.assertEqual(queue_url, expected_url)
+
+    @patch("boto3.client")
+    def test_set_visibility_timeout(self, mock_boto_client):
+        mock_sqs_client = MagicMock()
+        mock_boto_client.return_value = mock_sqs_client
+
+        # Set visibility timeout
+        self.sqs_adapter.set_visibility_timeout(30)
+
+        # Assert the internal visibility timeout is updated
+        self.assertEqual(self.sqs_adapter._visibility_timeout, 30)
+
+    @patch("boto3.client")
+    def test_set_visibility_timeout_negative_value(self, mock_boto_client):
+        with self.assertRaises(ValueError) as context:
+            self.sqs_adapter.set_visibility_timeout(-10)
+        self.assertEqual(
+            str(context.exception), "visibility_timeout must be a non-negative integer."
+        )
+
+    @patch("boto3.client")
+    def test_set_await_time(self, mock_boto_client):
+        mock_sqs_client = MagicMock()
+        mock_boto_client.return_value = mock_sqs_client
+
+        # Set await time
+        self.sqs_adapter.set_await_time(20)
+
+        # Assert the internal await time is updated
+        self.assertEqual(self.sqs_adapter._await_time, 20)
+
+    @patch("boto3.client")
+    def test_set_await_time_negative_value(self, mock_boto_client):
+        with self.assertRaises(ValueError) as context:
+            self.sqs_adapter.set_await_time(-10)
+        self.assertEqual(str(context.exception), "await_time must be a non-negative integer.")
