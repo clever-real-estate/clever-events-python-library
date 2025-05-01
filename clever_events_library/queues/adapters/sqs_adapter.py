@@ -28,18 +28,31 @@ class SQSAdapter(AwsHelperMixin, QueueBaseAdapter):
         self.aws_client_params = self._get_aws_client_params(client_config)
         self._sqs_client = None
         self._await_time = 0
+        self._visibility_timeout = 0
 
     def set_await_time(self, await_time: int) -> None:
         """
         Set the time to wait for messages
 
         Args:
-            await_time (int): The time to wait for messages
+            await_time (int): The amount of seconds to wait for messages
 
         Returns:
             None
         """
         self._await_time = await_time
+
+    def set_visibility_timeout(self, visibility_timeout: int) -> None:
+        """
+        Set the time messages are hidden from other consumers after being received by current one
+
+        Args:
+            visibility_timeout (int): The amount of seconds messages are hidden from other consumers
+
+        Returns:
+            None
+        """
+        self._visibility_timeout = visibility_timeout
 
     @property
     def sqs_client(self) -> boto3.client:
@@ -68,7 +81,7 @@ class SQSAdapter(AwsHelperMixin, QueueBaseAdapter):
             AttributeNames=["All"],
             MaxNumberOfMessages=max_number_of_messages,
             MessageAttributeNames=["All"],
-            VisibilityTimeout=30,
+            VisibilityTimeout=self._visibility_timeout,
             WaitTimeSeconds=self._await_time,
         )
 
