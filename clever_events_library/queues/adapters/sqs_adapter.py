@@ -40,6 +40,8 @@ class SQSAdapter(AwsHelperMixin, QueueBaseAdapter):
         Returns:
             None
         """
+        if await_time < 0:
+            raise ValueError("await_time must be a non-negative integer.")
         self._await_time = await_time
 
     def set_visibility_timeout(self, visibility_timeout: int) -> None:
@@ -49,9 +51,13 @@ class SQSAdapter(AwsHelperMixin, QueueBaseAdapter):
         Args:
             visibility_timeout (int): The amount of seconds messages are hidden from other consumers
 
+        Raises:
+            ValueError: If visibility_timeout is negative.
         Returns:
             None
         """
+        if visibility_timeout < 0:
+            raise ValueError("visibility_timeout must be a non-negative integer.")
         self._visibility_timeout = visibility_timeout
 
     @property
