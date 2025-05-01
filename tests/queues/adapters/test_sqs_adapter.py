@@ -75,7 +75,9 @@ class TestSQSAdapter(TestCase):
     def test_set_visibility_timeout_negative_value(self, mock_boto_client):
         with self.assertRaises(ValueError) as context:
             self.sqs_adapter.set_visibility_timeout(-10)
-        self.assertEqual(str(context.exception), "visibility_timeout must be a non-negative integer.")
+        self.assertEqual(
+            str(context.exception), "visibility_timeout must be a non-negative integer."
+        )
 
     @patch("boto3.client")
     def test_set_await_time(self, mock_boto_client):
