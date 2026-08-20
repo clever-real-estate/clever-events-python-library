@@ -2,6 +2,7 @@
 """
 pip setup file
 """
+
 from setuptools import find_packages, setup
 
 from clever_events_library import __version__
